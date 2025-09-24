@@ -6,6 +6,7 @@
 // --- 1. CONFIGURAÇÃO DO CLIENTE SUPABASE ---
 const SUPABASE_URL = 'https://vfwgxauqlvoeiaziaykl.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmd2d4YXVxbHZvZWlhemlheWtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2OTYxMjksImV4cCI6MjA2MjI3MjEyOX0.vN0Z-MCG1UySu-_2VU7J-aZlZxbID_eHouiahBq4WvM';      
+
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // --- 2. SELEÇÃO DE ELEMENTOS DO DOM (HTML) ---
@@ -26,9 +27,115 @@ const btnFiltrar = document.getElementById('btn-filtrar');
 
 // --- 3. FUNÇÕES PRINCIPAIS ---
 
+async function carregarPets() { /* ... esta função permanece a mesma da versão anterior ... */ }
+
+async function handleCadastro(event) {
+    event.preventDefault();
+
+    // --- NOVA VALIDAÇÃO DO WHATSAPP ---
+    const whatsappLimpo = whatsappInput.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+    if (whatsappLimpo.length < 10 || whatsappLimpo.length > 11) {
+        alert('Por favor, insira um número de WhatsApp válido com DDD (10 ou 11 dígitos).');
+        return; // Interrompe a execução da função
+    }
+    // --- FIM DA VALIDAÇÃO ---
+
+    const fotos = fotosInput.files;
+    if (fotos.length === 0 || fotos.length > 3) {
+        alert('Por favor, selecione de 1 a 3 fotos.');
+        return;
+    }
+    
+    btnSubmit.disabled = true;
+    loader.classList.remove('hidden');
+
+    try {
+        const fotosUrls = [];
+        for (const foto of fotos) {
+            const nomeArquivo = `${Date.now()}-${foto.name}`;
+            const { error: uploadError } = await supabaseClient.storage.from('fotos_pets').upload(nomeArquivo, foto);
+            if (uploadError) throw uploadError;
+            const { data: { publicUrl } } = supabaseClient.storage.from('fotos_pets').getPublicUrl(nomeArquivo);
+            fotosUrls.push(publicUrl);
+        }
+        
+        const petData = {
+            // MUDANÇA AQUI: Enviamos o número limpo para o banco
+            whatsapp_contato: whatsappLimpo,
+            cidade: cidadeInput.value,
+            estado: estadoInput.value,
+            observacoes: observacoesInput.value,
+            fotos_urls: fotosUrls,
+            palavra_chave: palavraChaveInput.value,
+            status: 'encontrado'
+        };
+
+        const { error: insertError } = await supabaseClient.from('pets_encontrados').insert([petData]);
+        if (insertError) throw insertError;
+
+        alert(
+            'CADASTRO REALIZADO!\n\n' +
+            'Guarde bem sua Palavra-chave: "' + palavraChaveInput.value + '"\n\n' +
+            'Você precisará dela para marcar o PET como devolvido.'
+        );
+        
+        formCadastro.reset();
+        await carregarPets();
+    } catch (error) {
+        console.error('Erro no processo de cadastro:', error);
+        alert(`Ocorreu um erro ao cadastrar: ${error.message}`);
+    } finally {
+        btnSubmit.disabled = false;
+        loader.classList.add('hidden');
+    }
+}
+
+async function marcarComoDevolvido(petId, palavraChaveCorreta) { /* ... esta função permanece a mesma da versão anterior ... */ }
+
+// --- 4. EVENT LISTENERS ---
+formCadastro.addEventListener('submit', handleCadastro);
+btnFiltrar.addEventListener('click', carregarPets);
+document.addEventListener('DOMContentLoaded', () => {
+    listaPets.innerHTML = '<p>Use os filtros para encontrar um PET.</p>';
+});
+listaPets.addEventListener('click', function(event) {
+    if (event.target && event.target.matches('button.devolvido-btn')) {
+        const petId = event.target.getAttribute('data-id');
+        const palavraChave = event.target.getAttribute('data-palavra-chave');
+        marcarComoDevolvido(petId, palavraChave);
+    }
+});
+
+// --- NOVA MÁSCARA PARA O CAMPO WHATSAPP ---
+whatsappInput.addEventListener('input', (event) => {
+    let valor = event.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+    
+    if (valor.length > 11) {
+        valor = valor.slice(0, 11); // Limita a 11 dígitos
+    }
+    
+    // Aplica a formatação dinamicamente
+    if (valor.length > 10) {
+        // Formato (XX) XXXXX-XXXX para celulares com 9 dígitos
+        valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+    } else if (valor.length > 6) {
+        // Formato (XX) XXXX-XXXX para telefones com 8 dígitos
+        valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+    } else if (valor.length > 2) {
+        // Formato (XX) XXXX
+        valor = valor.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+    } else {
+        // Formato (XX
+        valor = valor.replace(/^(\d*)/, '($1');
+    }
+    
+    event.target.value = valor;
+});
+
+// --- CÓDIGO RESTANTE (PARA COMPLETUDE, INCLUINDO AS FUNÇÕES NÃO MODIFICADAS) ---
+
 /**
  * Carrega e exibe os pets do banco de dados, com filtros opcionais.
- * ALTERADO: Agora busca apenas pets com status 'encontrado'.
  */
 async function carregarPets() {
     listaPets.innerHTML = '<p>Carregando pets...</p>';
@@ -37,10 +144,9 @@ async function carregarPets() {
     const cidadeFiltro = filtroCidadeInput.value.trim();
     const palavraChaveFiltro = filtroPalavraChaveInput.value.trim();
 
-    // ALTERAÇÃO IMPORTANTE: Adicionado .eq('status', 'encontrado') para buscar apenas os não devolvidos
     let query = supabaseClient.from('pets_encontrados')
         .select('*')
-        .eq('status', 'encontrado') // <<<<<<< NOVA CONDIÇÃO
+        .eq('status', 'encontrado')
         .order('created_at', { ascending: false });
 
     if (estadoFiltro) query = query.ilike('estado', `%${estadoFiltro}%`);
@@ -64,7 +170,6 @@ async function carregarPets() {
     pets.forEach(pet => {
         const petCard = document.createElement('div');
         petCard.className = 'pet-card';
-        // ALTERAÇÃO: Adicionado o botão "Devolvido ao Dono" com o ID do pet
         petCard.innerHTML = `
             <img src="${pet.fotos_urls[0]}" alt="Foto do PET">
             <div class="pet-card-info">
@@ -80,72 +185,14 @@ async function carregarPets() {
 }
 
 /**
- * Lida com o envio do formulário de cadastro.
- * ALTERADO: Exibe um alerta para o usuário guardar a palavra-chave.
- */
-async function handleCadastro(event) {
-    event.preventDefault();
-    const fotos = fotosInput.files;
-    if (fotos.length === 0 || fotos.length > 3) {
-        alert('Por favor, selecione de 1 a 3 fotos.');
-        return;
-    }
-    
-    btnSubmit.disabled = true;
-    loader.classList.remove('hidden');
-
-    try {
-        const fotosUrls = [];
-        for (const foto of fotos) {
-            const nomeArquivo = `${Date.now()}-${foto.name}`;
-            const { error: uploadError } = await supabaseClient.storage.from('fotos_pets').upload(nomeArquivo, foto);
-            if (uploadError) throw uploadError;
-            const { data: { publicUrl } } = supabaseClient.storage.from('fotos_pets').getPublicUrl(nomeArquivo);
-            fotosUrls.push(publicUrl);
-        }
-        
-        const petData = {
-            whatsapp_contato: whatsappInput.value,
-            cidade: cidadeInput.value,
-            estado: estadoInput.value,
-            observacoes: observacoesInput.value,
-            fotos_urls: fotosUrls,
-            palavra_chave: palavraChaveInput.value,
-            status: 'encontrado'
-        };
-
-        const { error: insertError } = await supabaseClient.from('pets_encontrados').insert([petData]);
-        if (insertError) throw insertError;
-
-        // ALTERAÇÃO: Alerta de sucesso explícito sobre a palavra-chave
-        alert(
-            'CADASTRO REALIZADO!\n\n' +
-            'Guarde bem sua Palavra-chave: "' + palavraChaveInput.value + '"\n\n' +
-            'Você precisará dela para marcar o PET como devolvido.'
-        );
-        
-        formCadastro.reset();
-        await carregarPets();
-    } catch (error) {
-        console.error('Erro no processo de cadastro:', error);
-        alert(`Ocorreu um erro ao cadastrar: ${error.message}`);
-    } finally {
-        btnSubmit.disabled = false;
-        loader.classList.add('hidden');
-    }
-}
-
-/**
- * NOVO: Lida com o clique no botão "Devolvido ao Dono".
- * Pede a palavra-chave e atualiza o status do pet no banco.
+ * Lida com o clique no botão "Devolvido ao Dono".
  */
 async function marcarComoDevolvido(petId, palavraChaveCorreta) {
     const palavraChaveDigitada = prompt("Para confirmar a devolução, por favor, digite a palavra-chave deste cadastro:");
 
-    if (palavraChaveDigitada === null) return; // Usuário cancelou
+    if (palavraChaveDigitada === null) return;
 
     if (palavraChaveDigitada.trim() === palavraChaveCorreta) {
-        // Palavra-chave correta, vamos atualizar o status
         const { error } = await supabaseClient
             .from('pets_encontrados')
             .update({ status: 'devolvido' })
@@ -156,26 +203,9 @@ async function marcarComoDevolvido(petId, palavraChaveCorreta) {
             alert('Não foi possível atualizar o status. Tente novamente.');
         } else {
             alert('Status atualizado com sucesso! O pet foi removido da lista.');
-            await carregarPets(); // Recarrega a lista para remover o card
+            await carregarPets();
         }
     } else {
-        // Palavra-chave incorreta
         alert('Palavra-chave incorreta!');
     }
 }
-
-// --- 4. EVENT LISTENERS ---
-formCadastro.addEventListener('submit', handleCadastro);
-btnFiltrar.addEventListener('click', carregarPets);
-document.addEventListener('DOMContentLoaded', () => {
-    listaPets.innerHTML = '<p>Use os filtros para encontrar um PET.</p>';
-});
-
-// NOVO: Listener "delegado" para os botões "Devolvido ao Dono"
-listaPets.addEventListener('click', function(event) {
-    if (event.target && event.target.matches('button.devolvido-btn')) {
-        const petId = event.target.getAttribute('data-id');
-        const palavraChave = event.target.getAttribute('data-palavra-chave');
-        marcarComoDevolvido(petId, palavraChave);
-    }
-});

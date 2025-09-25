@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-botoes">
                         <a href="https://wa.me/55${pet.whatsapp_contato}" target="_blank" class="whatsapp-btn">Entrar em contato</a>
                         ${botaoVerMaisFotos}
-                        <button class="devolvido-btn" data-id="${pet.id}" data-palavra-chave="${pet.palavra_chave}">Devolvido ao Dono</button>
+                        <button class="devolvido-btn" data-id="${pet.id}" data-palavra-chave="${pet.palavra_chave}">Devolvido ao Tutor</button>
                     </div>
                 </div>
             `;

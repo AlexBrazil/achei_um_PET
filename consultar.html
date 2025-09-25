@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar PETs Encontrados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Consultar PETs Encontrados</h1>
+        <p>Use os filtros para encontrar um pet perdido na sua região.</p>
+    </header>
+
+    <nav>
+        <a href="index.html">&larr; Voltar ao Menu</a>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Filtros de Busca</h2>
+            <div class="filtros">
+                <select id="filtro-estado">
+                    <option value="">Todos os Estados</option>
+                </select>
+                <select id="filtro-cidade" disabled>
+                    <option value="">Todas as Cidades</option>
+                </select>
+            </div>
+            <div class="filtros" style="margin-top: 10px;">
+                <button id="btn-filtrar">Filtrar</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Pets Encontrados</h2>
+            <div id="lista-pets">
+                <p>Use os filtros para encontrar um PET.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>

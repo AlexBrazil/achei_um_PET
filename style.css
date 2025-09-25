@@ -41,7 +41,7 @@ h2 {
     color: #4a90e2;
 }
 
-/* Formulário */
+/* Formulário e Inputs */
 .form-group {
     margin-bottom: 15px;
 }
@@ -52,20 +52,51 @@ h2 {
     font-weight: 600;
 }
 
-select:disabled {
-    background-color: #f0f0f0;
-    cursor: not-allowed;
-}
-
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
+.form-group input:focus,
+.form-group textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Estilos para Dropdowns (Select) com seta personalizada */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 40px;
+    background-color: white;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 1em;
+}
+
+select:hover {
+    border-color: #888;
+}
+
+select:disabled {
+    background-color: #f0f2f5;
+    cursor: not-allowed;
+    color: #999;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cccccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Botões */
 button {
     background-color: #4CAF50;
     color: white;
@@ -94,14 +125,9 @@ button:disabled {
 .filtros {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    /* margin-bottom foi removido para melhor controle nos novos layouts */
 }
-.filtros input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+
 .filtros button {
     background-color: #4a90e2;
 }
@@ -121,6 +147,8 @@ button:disabled {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
 }
 
 .pet-card img {
@@ -131,29 +159,44 @@ button:disabled {
 
 .pet-card-info {
     padding: 15px;
+    flex-grow: 1; /* Faz esta área crescer para preencher o espaço */
+    display: flex;
+    flex-direction: column;
 }
 
-.pet-card-info h3 {
+.pet-card-info h3, .pet-card-info p {
     margin-bottom: 10px;
 }
 
 .pet-card-info p {
-    margin-bottom: 5px;
     font-size: 0.9rem;
 }
 
-.pet-card-info a {
+.pet-card-info .whatsapp-btn {
     display: inline-block;
-    margin-top: 10px;
     background-color: #25D366;
     color: white;
     padding: 8px 12px;
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
+    text-align: center;
+    margin-top: auto; /* Empurra o botão para o final do card */
 }
 
-/* Loader */
+.pet-card-info .devolvido-btn {
+    width: auto; /* Remove a largura de 100% dos botões padrão */
+    background-color: #f44336; /* Cor de alerta (vermelho) */
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    margin-top: 8px;
+}
+
+.pet-card-info .devolvido-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Loader e Animações */
 .loader {
     border: 4px solid #f3f3f3;
     border-radius: 50%;
@@ -167,68 +210,118 @@ button:disabled {
     display: none;
 }
 
-/* ======================================================= */
-/* ESTILOS ADICIONAIS PARA OS DROPDOWNS (VERSÃO MODERNA)   */
-/* ======================================================= */
-
-/* Estilo base para os <select> */
-select {
-    /* Remove a aparência padrão do navegador (incluindo a seta) */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    
-    /* Estilos para combinar com os outros inputs */
-    width: 100%;
-    padding: 10px 40px 10px 10px; /* Adiciona espaço à direita para a nova seta */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    background-color: white;
-    cursor: pointer;
-    
-    /* Adiciona nossa seta personalizada (um SVG codificado) */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 1em;
-
-    /* Transição suave para efeitos */
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-/* Efeito ao passar o mouse por cima */
-select:hover {
-    border-color: #888;
-}
-
-/* Efeito ao clicar no dropdown (foco) */
-select:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-}
-
-/* Estilo para quando o dropdown estiver desabilitado */
-select:disabled {
-    background-color: #f0f2f5;
-    cursor: not-allowed;
-    color: #999;
-    /* Muda a cor da seta para cinza quando desabilitado */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cccccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-}
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
+/* ============================================= */
+/* ESTILOS PARA A NOVA ESTRUTURA DE PÁGINAS      */
+/* ============================================= */
+
+/* Layout da página inicial (home) */
+.home-container .card {
+    text-align: center;
+}
+
+/* Links em formato de card na home */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: block; /* Para o link ocupar todo o card */
+}
+
+.card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-link .btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #4a90e2; /* Cor azul primária */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Barra de navegação simples para voltar */
+nav {
+    max-width: 900px;
+    margin: -10px auto 20px auto;
+    padding: 0 20px;
+}
+
+nav a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #357abd;
+    font-size: 1.1rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Pequeno ajuste para a página de consulta */
+#lista-pets {
+    margin-top: 20px;
+}
+
+/* ==================================================== */
+/* ESTILO DE BOTÃO PARA O LINK DE NAVEGAÇÃO "VOLTAR"    */
+/* ==================================================== */
+
+/* Estiliza o container da navegação */
+nav {
+    max-width: 900px;
+    margin: 0 auto 25px auto; /* Aumenta a margem inferior para dar espaço ao botão */
+    padding: 0 20px;
+}
+
+/* Estiliza o link 'a' como um botão */
+nav a {
+    display: inline-block; /* Permite aplicar padding, bordas, etc. */
+    padding: 10px 20px; /* Espaçamento interno para criar o formato de botão */
+    background-color: #f0f2f5; /* Fundo que combina com o da página */
+    border: 1px solid #ddd; /* Borda sutil */
+    border-radius: 8px; /* Cantos arredondados, como nos cards */
+    
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a90e2; /* Cor azul do tema */
+    text-decoration: none; /* Remove o sublinhado */
+    
+    /* Transição suave para o efeito de hover */
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
+}
+
+/* Efeito ao passar o mouse por cima */
+nav a:hover {
+    background-color: #e9ecef; /* Um cinza um pouco mais escuro */
+    border-color: #ccc;
+    transform: translateY(-2px); /* Efeito de "levantar" o botão */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
+}
+
+/* Responsividade */
 @media (min-width: 768px) {
     .container {
+        /* Esta regra agora funciona bem para a home e para a página de consulta */
         flex-direction: row;
         align-items: flex-start;
     }
+    
     .card {
-        flex: 1;
+        flex: 1; /* Permite que os cards cresçam igualmente */
+    }
+
+    /* Garante que na página de cadastro o formulário não fique esticado demais */
+    #form-cadastro {
+        max-width: 500px;
+        margin: 0 auto;
     }
 }

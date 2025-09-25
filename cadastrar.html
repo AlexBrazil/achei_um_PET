@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar PET Encontrado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Cadastrar PET Encontrado</h1>
+        <p>Preencha os dados abaixo para ajudar um pet a voltar para casa.</p>
+    </header>
+
+    <nav>
+        <a href="index.html">&larr; Voltar ao Menu</a>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <form id="form-cadastro">
+                <div class="form-group">
+                    <label for="fotos">Fotos do PET (até 3)</label>
+                    <input type="file" id="fotos" accept="image/*" multiple required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">Seu WhatsApp (com DDD)</label>
+                    <input type="tel" id="whatsapp" placeholder="(XX) XXXXX-XXXX" maxlength="15" required>
+                </div>
+                <div class="form-group">
+                    <label for="form-estado">Estado</label>
+                    <select id="form-estado" required>
+                        <option value="">Selecione um Estado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="form-cidade">Cidade</label>
+                    <select id="form-cidade" required disabled>
+                        <option value="">Aguardando estado...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="palavra-chave">Crie uma Palavra-chave</label>
+                    <input type="text" id="palavra-chave" placeholder="Ex: fofinho123 (guarde bem!)" required>
+                </div>
+                <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <textarea id="observacoes" rows="3" placeholder="Ex: Estava mancando, é muito dócil..."></textarea>
+                </div>
+                <button type="submit" id="btn-submit">
+                    Cadastrar PET
+                    <div class="loader hidden"></div>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>

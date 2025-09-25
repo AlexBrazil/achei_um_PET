@@ -24,15 +24,20 @@
                 </div>
                 <div class="form-group">
                     <label for="whatsapp">Seu WhatsApp (com DDD)</label>
-                    <input type="tel" id="whatsapp" placeholder="Ex: 11987654321" required>
+                    <input type="tel" id="whatsapp" placeholder="(XX) XXXXX-XXXX" maxlength="15" required>
+                </div>
+                <!-- MUDANÇA: Dropdowns para Estado e Cidade -->
+                <div class="form-group">
+                    <label for="form-estado">Estado</label>
+                    <select id="form-estado" required>
+                        <option value="">Selecione um Estado</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <input type="text" id="estado" placeholder="Ex: SP" required>
-                </div>
-                <div class="form-group">
-                    <label for="cidade">Cidade</label>
-                    <input type="text" id="cidade" placeholder="Ex: São Paulo" required>
+                    <label for="form-cidade">Cidade</label>
+                    <select id="form-cidade" required disabled>
+                        <option value="">Aguardando estado...</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="palavra-chave">Crie uma Palavra-chave</label>
@@ -52,25 +57,25 @@
         <!-- SEÇÃO DE CONSULTA -->
         <section class="card">
             <h2>Consultar PETs Encontrados</h2>
+            <!-- MUDANÇA: Dropdowns para Filtros -->
             <div class="filtros">
-                <input type="text" id="filtro-estado" placeholder="Estado (Ex: SP)">
-                <input type="text" id="filtro-cidade" placeholder="Cidade">
-            </div>
-             <div class="filtros" style="margin-top: 10px;">
-                <input type="text" id="filtro-palavra-chave" placeholder="Buscar por palavra-chave...">
+                <select id="filtro-estado">
+                    <option value="">Todos os Estados</option>
+                </select>
+                <select id="filtro-cidade" disabled>
+                    <option value="">Todas as Cidades</option>
+                </select>
             </div>
             <div class="filtros" style="margin-top: 10px;">
-                 <button id="btn-filtrar">Filtrar</button>
+                <button id="btn-filtrar">Filtrar</button>
             </div>
             <div id="lista-pets">
-                <p>Preencha os filtros para buscar.</p>
+                <p>Use os filtros para encontrar um PET.</p>
             </div>
         </section>
     </main>
 
-    <!-- Importando a biblioteca do Supabase via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Nosso script principal -->
     <script src="app.js"></script>
 </body>
 </html>

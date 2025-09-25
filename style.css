@@ -196,6 +196,19 @@ button:disabled {
     background-color: #d32f2f;
 }
 
+/* Estilo para o grid que agrupa os dois cards de ação */
+.action-cards-grid {
+    display: grid; /* Usa grid para layout */
+    grid-template-columns: 1fr; /* Em telas pequenas, uma coluna */
+    gap: 30px; /* Espaçamento entre os cards */
+}
+
+/* Estiliza o card de informação para centralizar o conteúdo */
+.info-card {
+    text-align: center;
+    margin-top: 20px; /* Adiciona um espaço extra acima */
+}
+
 /* Loader e Animações */
 .loader {
     border: 4px solid #f3f3f3;
@@ -307,12 +320,30 @@ nav a:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
 }
 
+/* VERIFICAÇÃO DE RESPONSIVIDADE: Estilo para a imagem */
+.info-image {
+    max-width: 100%; /* Garante que a imagem nunca ultrapasse a largura do card */
+    height: auto;    /* Mantém a proporção da imagem automaticamente */
+    border-radius: 8px;
+    margin: 20px auto; /* Centraliza a imagem horizontalmente */
+    display: block;    /* Necessário para que a margem 'auto' funcione */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    /* Opcional: Limita o tamanho máximo em telas muito grandes */
+    max-width: 500px; 
+}
+
+.slogan {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4CAF50;
+    margin-top: 10px;
+}
+
 /* Responsividade */
 @media (min-width: 768px) {
-    .container {
-        /* Esta regra agora funciona bem para a home e para a página de consulta */
-        flex-direction: row;
-        align-items: flex-start;
+    /* Em telas maiores, os cards de ação ficam lado a lado */
+    .action-cards-grid {
+        grid-template-columns: 1fr 1fr; /* Duas colunas de tamanho igual */
     }
     
     .card {

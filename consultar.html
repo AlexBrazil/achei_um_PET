@@ -44,5 +44,23 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./js/common.js"></script>
     <script src="./js/consultar.js"></script>
+
+    <!-- ============================================= -->
+    <!--   NOVA MODAL PARA VISUALIZAR FOTOS            -->
+    <!-- ============================================= -->
+    <div id="modal-fotos-overlay" class="hidden">
+        <div id="modal-fotos-content">
+            <button id="modal-fotos-close-btn">&times;</button>
+            <div id="modal-fotos-body">
+                <div class="carousel-container">
+                    <button class="carousel-btn prev">&lsaquo;</button>
+                    <div class="carousel-image-wrapper">
+                        <img id="carousel-image" src="" alt="Foto do PET em destaque">
+                    </div>
+                    <button class="carousel-btn next">&rsaquo;</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

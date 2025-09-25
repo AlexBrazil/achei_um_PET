@@ -33,6 +33,33 @@ header {
     border-bottom: 5px solid #357abd;
 }
 
+nav {
+    max-width: 900px;
+    margin: 0 auto 25px auto;
+    padding: 0 20px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0f2f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a90e2;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+nav a:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 /* ============================================= */
 /* 3. CARDS E CONTEÚDO                           */
 /* ============================================= */
@@ -46,12 +73,6 @@ header {
 h2 {
     margin-bottom: 20px;
     color: #4a90e2;
-}
-
-.contrapartida {
-    margin-bottom: 20px;
-    color: #4a90e2;
-    font-size: 1.2rem;
 }
 
 /* ============================================= */
@@ -126,6 +147,7 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    transition: background-color 0.2s ease;
 }
 
 button:hover {
@@ -217,37 +239,40 @@ button:disabled {
     margin-top: 10px;
 }
 
-
-/* --- 6.2. Navegação (cadastrar.html, consultar.html) --- */
-nav {
+.fornecedores-busca-container {
     max-width: 900px;
-    margin: 0 auto 25px auto;
-    padding: 0 20px;
-}
-
-nav a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #f0f2f5;
-    border: 1px solid #ddd;
+    margin: 20px auto 0 auto;
+    padding: 20px;
+    background-color: #fff;
     border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #4a90e2;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-nav a:hover {
-    background-color: #e9ecef;
-    border-color: #ccc;
-    transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
+.fornecedores-busca-container p {
+    margin-top: -15px;
+    margin-bottom: 20px;
+    color: #555;
+}
 
-/* --- 6.3. Página de Consulta (consultar.html) --- */
+.fornecedores-busca-container .filtros {
+    justify-content: center;
+}
+
+.fornecedores-busca-container #input-ddd {
+    max-width: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.fornecedores-busca-container #btn-buscar-fornecedores {
+    width: auto;
+}
+
+/* --- 6.2. Página de Consulta (consultar.html) --- */
 #lista-pets {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -285,8 +310,21 @@ nav a:hover {
     font-size: 0.9rem;
 }
 
-.pet-card-info .whatsapp-btn {
-    display: block; /* Ocupa a largura toda */
+/* NOVO CONTAINER DE BOTÕES DENTRO DO CARD DO PET */
+.card-botoes {
+    margin-top: auto; /* Empurra este container para o final do card */
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espaço entre os botões */
+}
+
+/* Reset de margem para os botões dentro do container */
+.card-botoes > * {
+    margin-top: 0; 
+}
+
+.whatsapp-btn {
+    display: block;
     background-color: #25D366;
     color: white;
     padding: 8px 12px;
@@ -294,23 +332,134 @@ nav a:hover {
     border-radius: 4px;
     font-weight: bold;
     text-align: center;
-    margin-top: auto;
 }
 
-.pet-card-info .devolvido-btn {
+.devolvido-btn {
     background-color: #f44336;
     font-size: 0.9rem;
-    margin-top: 8px;
     padding: 8px 12px;
 }
-
-.pet-card-info .devolvido-btn:hover {
+.devolvido-btn:hover {
     background-color: #d32f2f;
 }
 
+.ver-fotos-btn {
+    background-color: #4a90e2;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+.ver-fotos-btn:hover {
+    background-color: #357abd;
+}
 
 /* ============================================= */
-/* 7. UTILITÁRIOS E ANIMAÇÕES                    */
+/* 7. MODAIS                                     */
+/* ============================================= */
+
+/* --- 7.1. Modal de Fornecedores --- */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+#modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#modal-content {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#modal-body {
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: auto;
+}
+#modal-close-btn:hover { color: #333; }
+
+#modal-body ul { list-style: none; padding: 0; margin: 0; }
+#modal-body li { padding: 15px 0; border-bottom: 1px solid #eee; }
+#modal-body li:last-child { border-bottom: none; }
+#modal-body .fornecedor-nome { font-weight: bold; font-size: 1.1rem; color: #4a90e2; }
+#modal-body .fornecedor-bairro { color: #555; margin: 5px 0 10px 0; }
+#modal-body .fornecedor-whatsapp { display: inline-block; background-color: #25D366; color: white !important; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.2s ease; }
+#modal-body .fornecedor-whatsapp:hover { background-color: #1EBE57; }
+.sem-whatsapp { color: #888; font-style: italic; font-size: 0.9rem; margin-top: 10px; }
+
+/* --- 7.2. Modal de Fotos (Carrossel) --- */
+#modal-fotos-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Z-index maior para ficar sobre a outra modal se necessário */
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+#modal-fotos-overlay.hidden { opacity: 0; pointer-events: none; }
+
+#modal-fotos-content { background-color: transparent; box-shadow: none; padding: 0; width: 90%; max-width: 700px; position: relative; }
+
+#modal-fotos-close-btn { position: absolute; top: -40px; right: 0; background: none; border: none; font-size: 3rem; color: #fff; cursor: pointer; line-height: 1; padding: 0; width: auto; opacity: 0.8; }
+#modal-fotos-close-btn:hover { opacity: 1; }
+
+.carousel-container { display: flex; align-items: center; justify-content: space-between; }
+.carousel-image-wrapper { width: 100%; height: 80vh; max-height: 600px; display: flex; justify-content: center; align-items: center; }
+#carousel-image { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }
+
+.carousel-btn { background-color: rgba(0, 0, 0, 0.3); border: none; color: white; font-size: 2.5rem; cursor: pointer; padding: 10px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; line-height: 0; transition: background-color 0.2s ease; user-select: none; }
+.carousel-btn:hover { background-color: rgba(0, 0, 0, 0.6); }
+.carousel-btn.prev { margin-right: 15px; }
+.carousel-btn.next { margin-left: 15px; }
+
+
+/* ============================================= */
+/* 8. UTILITÁRIOS E ANIMAÇÕES                    */
 /* ============================================= */
 .loader {
     border: 4px solid #f3f3f3;
@@ -331,178 +480,14 @@ nav a:hover {
 }
 
 /* ============================================= */
-/* 8. RESPONSIVIDADE (MEDIA QUERIES)             */
+/* 9. RESPONSIVIDADE (MEDIA QUERIES)             */
 /* ============================================= */
 @media (max-width: 767px) {
-    /* Layout das imagens dos pets na home */
-    .pet-images-container {
-        flex-direction: column;
-    }
-
-    .pet-image {
-        max-width: 70%;
-        flex-basis: auto;
-    }
-}
-
-/* ================================================= */
-/* 9. ESTILOS PARA BUSCA DE FORNECEDORES E MODAL     */
-/* ================================================= */
-
-/* --- 9.1. Seção de Busca na Página Inicial --- */
-.fornecedores-busca-container {
-    max-width: 900px;
-    margin: 20px auto 0 auto; /* Espaçamento acima do container principal */
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.fornecedores-busca-container p {
-    margin-top: -15px;
-    margin-bottom: 20px;
-    color: #555;
-}
-
-.fornecedores-busca-container .filtros {
-    justify-content: center;
-}
-
-.fornecedores-busca-container #input-ddd {
-    max-width: 150px; /* Largura do campo DDD */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    text-align: center;
-}
-
-.fornecedores-busca-container #btn-buscar-fornecedores {
-    width: auto; /* Botão com largura automática */
-}
-
-
-/* --- 9.2. Estilos da Modal --- */
-
-/* Fundo escuro que cobre a tela inteira */
-#modal-overlay {
-    position: fixed; /* Fica fixo na tela, mesmo com rolagem */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fundo preto semitransparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Garante que fique na frente de tudo */
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-#modal-overlay.hidden {
-    opacity: 0;
-    pointer-events: none; /* Impede cliques quando estiver invisível */
-}
-
-/* A caixa de conteúdo da modal */
-#modal-content {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    width: 90%; /* Responsivo, ocupa 90% da largura da tela */
-    max-width: 600px; /* Largura máxima em telas grandes */
-    max-height: 85vh; /* Altura máxima, 85% da altura da tela */
-    display: flex;
-    flex-direction: column;
-    position: relative; /* Para posicionar o botão de fechar */
-}
-
-/* Corpo da modal, onde a lista entra */
-#modal-body {
-    overflow-y: auto; /* ADICIONA A BARRA DE ROLAGEM QUANDO NECESSÁRIO */
-    padding-right: 10px; /* Espaço para a barra de rolagem não colar no texto */
-}
-
-/* Botão de fechar (X) */
-#modal-close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #888;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0;
-    width: auto;
-}
-
-#modal-close-btn:hover {
-    color: #333;
-}
-
-/* Estilo da lista de fornecedores dentro da modal */
-#modal-body ul {
-    list-style: none; /* Remove os pontos da lista */
-    padding: 0;
-    margin: 0;
-}
-
-#modal-body li {
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-}
-
-#modal-body li:last-child {
-    border-bottom: none; /* Remove a borda do último item */
-}
-
-#modal-body .fornecedor-nome {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #4a90e2;
-}
-
-#modal-body .fornecedor-bairro {
-    color: #555;
-    margin: 5px 0 10px 0;
-}
-
-#modal-body .fornecedor-whatsapp {
-    display: inline-block;
-    background-color: #25D366;
-    color: white !important;
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-}
-
-#modal-body .fornecedor-whatsapp:hover {
-    background-color: #1EBE57;
-}
-
-.sem-whatsapp {
-    color: #888;
-    font-style: italic;
-    font-size: 0.9rem;
-    margin-top: 10px;
+    .pet-images-container { flex-direction: column; }
+    .pet-image { max-width: 70%; flex-basis: auto; }
 }
 
 @media (min-width: 768px) {
-    /* Layout dos cards de ação na home */
-    .action-cards-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    /* Layout da página de cadastro */
-    #form-cadastro {
-        max-width: 500px;
-        margin: 0 auto;
-    }
+    .action-cards-grid { grid-template-columns: 1fr 1fr; }
+    #form-cadastro { max-width: 500px; margin: 0 auto; }
 }

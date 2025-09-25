@@ -1,0 +1,7 @@
+/* Estilos especificos de cadastrar.html */
+@media (min-width: 768px) {
+    #form-cadastro {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}

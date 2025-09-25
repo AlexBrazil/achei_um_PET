@@ -1,4 +1,6 @@
-/* Reset básico e fontes */
+/* ============================================= */
+/* 1. ESTILOS GERAIS E RESET                     */
+/* ============================================= */
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +13,9 @@ body {
     color: #333;
 }
 
+/* ============================================= */
+/* 2. LAYOUT PRINCIPAL E CABEÇALHO               */
+/* ============================================= */
 .container {
     max-width: 900px;
     margin: 20px auto;
@@ -28,7 +33,9 @@ header {
     border-bottom: 5px solid #357abd;
 }
 
-/* Estilo dos cards */
+/* ============================================= */
+/* 3. CARDS E CONTEÚDO                           */
+/* ============================================= */
 .card {
     background-color: white;
     padding: 25px;
@@ -41,7 +48,9 @@ h2 {
     color: #4a90e2;
 }
 
-/* Formulário e Inputs */
+/* ============================================= */
+/* 4. FORMULÁRIOS, INPUTS E SELECTS              */
+/* ============================================= */
 .form-group {
     margin-bottom: 15px;
 }
@@ -71,7 +80,6 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
-/* Estilos para Dropdowns (Select) com seta personalizada */
 select {
     appearance: none;
     -webkit-appearance: none;
@@ -96,7 +104,9 @@ select:disabled {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cccccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
 }
 
-/* Botões */
+/* ============================================= */
+/* 5. BOTÕES E ELEMENTOS INTERATIVOS             */
+/* ============================================= */
 button {
     background-color: #4CAF50;
     color: white;
@@ -121,11 +131,9 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Filtros */
 .filtros {
     display: flex;
     gap: 10px;
-    /* margin-bottom foi removido para melhor controle nos novos layouts */
 }
 
 .filtros button {
@@ -135,11 +143,110 @@ button:disabled {
     background-color: #357abd;
 }
 
-/* Lista de PETs */
+/* ============================================= */
+/* 6. ESTILOS ESPECÍFICOS DE PÁGINAS             */
+/* ============================================= */
+
+/* --- 6.1. Página Inicial (index.html) --- */
+.action-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: block;
+}
+
+.card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-link .btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.info-card {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pet-images-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.pet-image {
+    flex-basis: 200px;
+    flex-grow: 0;
+    flex-shrink: 1;
+    max-width: 50%;
+}
+
+.pet-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.slogan {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4CAF50;
+    margin-top: 10px;
+}
+
+
+/* --- 6.2. Navegação (cadastrar.html, consultar.html) --- */
+nav {
+    max-width: 900px;
+    margin: 0 auto 25px auto;
+    padding: 0 20px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0f2f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a90e2;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+nav a:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+/* --- 6.3. Página de Consulta (consultar.html) --- */
 #lista-pets {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
+    margin-top: 20px;
 }
 
 .pet-card {
@@ -159,7 +266,7 @@ button:disabled {
 
 .pet-card-info {
     padding: 15px;
-    flex-grow: 1; /* Faz esta área crescer para preencher o espaço */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
@@ -173,7 +280,7 @@ button:disabled {
 }
 
 .pet-card-info .whatsapp-btn {
-    display: inline-block;
+    display: block; /* Ocupa a largura toda */
     background-color: #25D366;
     color: white;
     padding: 8px 12px;
@@ -181,35 +288,24 @@ button:disabled {
     border-radius: 4px;
     font-weight: bold;
     text-align: center;
-    margin-top: auto; /* Empurra o botão para o final do card */
+    margin-top: auto;
 }
 
 .pet-card-info .devolvido-btn {
-    width: auto; /* Remove a largura de 100% dos botões padrão */
-    background-color: #f44336; /* Cor de alerta (vermelho) */
-    font-size: 0.8rem;
-    padding: 6px 10px;
+    background-color: #f44336;
+    font-size: 0.9rem;
     margin-top: 8px;
+    padding: 8px 12px;
 }
 
 .pet-card-info .devolvido-btn:hover {
     background-color: #d32f2f;
 }
 
-/* Estilo para o grid que agrupa os dois cards de ação */
-.action-cards-grid {
-    display: grid; /* Usa grid para layout */
-    grid-template-columns: 1fr; /* Em telas pequenas, uma coluna */
-    gap: 30px; /* Espaçamento entre os cards */
-}
 
-/* Estiliza o card de informação para centralizar o conteúdo */
-.info-card {
-    text-align: center;
-    margin-top: 20px; /* Adiciona um espaço extra acima */
-}
-
-/* Loader e Animações */
+/* ============================================= */
+/* 7. UTILITÁRIOS E ANIMAÇÕES                    */
+/* ============================================= */
 .loader {
     border: 4px solid #f3f3f3;
     border-radius: 50%;
@@ -229,128 +325,27 @@ button:disabled {
 }
 
 /* ============================================= */
-/* ESTILOS PARA A NOVA ESTRUTURA DE PÁGINAS      */
+/* 8. RESPONSIVIDADE (MEDIA QUERIES)             */
 /* ============================================= */
+@media (max-width: 767px) {
+    /* Layout das imagens dos pets na home */
+    .pet-images-container {
+        flex-direction: column;
+    }
 
-/* Layout da página inicial (home) */
-.home-container .card {
-    text-align: center;
+    .pet-image {
+        max-width: 70%;
+        flex-basis: auto;
+    }
 }
 
-/* Links em formato de card na home */
-.card-link {
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    display: block; /* Para o link ocupar todo o card */
-}
-
-.card-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
-.card-link .btn {
-    display: inline-block;
-    margin-top: 20px;
-    background-color: #4a90e2; /* Cor azul primária */
-    color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-weight: bold;
-}
-
-/* Barra de navegação simples para voltar */
-nav {
-    max-width: 900px;
-    margin: -10px auto 20px auto;
-    padding: 0 20px;
-}
-
-nav a {
-    text-decoration: none;
-    font-weight: 600;
-    color: #357abd;
-    font-size: 1.1rem;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-/* Pequeno ajuste para a página de consulta */
-#lista-pets {
-    margin-top: 20px;
-}
-
-/* ==================================================== */
-/* ESTILO DE BOTÃO PARA O LINK DE NAVEGAÇÃO "VOLTAR"    */
-/* ==================================================== */
-
-/* Estiliza o container da navegação */
-nav {
-    max-width: 900px;
-    margin: 0 auto 25px auto; /* Aumenta a margem inferior para dar espaço ao botão */
-    padding: 0 20px;
-}
-
-/* Estiliza o link 'a' como um botão */
-nav a {
-    display: inline-block; /* Permite aplicar padding, bordas, etc. */
-    padding: 10px 20px; /* Espaçamento interno para criar o formato de botão */
-    background-color: #f0f2f5; /* Fundo que combina com o da página */
-    border: 1px solid #ddd; /* Borda sutil */
-    border-radius: 8px; /* Cantos arredondados, como nos cards */
-    
-    font-size: 1rem;
-    font-weight: 600;
-    color: #4a90e2; /* Cor azul do tema */
-    text-decoration: none; /* Remove o sublinhado */
-    
-    /* Transição suave para o efeito de hover */
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
-}
-
-/* Efeito ao passar o mouse por cima */
-nav a:hover {
-    background-color: #e9ecef; /* Um cinza um pouco mais escuro */
-    border-color: #ccc;
-    transform: translateY(-2px); /* Efeito de "levantar" o botão */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
-}
-
-/* VERIFICAÇÃO DE RESPONSIVIDADE: Estilo para a imagem */
-.info-image {
-    max-width: 100%; /* Garante que a imagem nunca ultrapasse a largura do card */
-    height: auto;    /* Mantém a proporção da imagem automaticamente */
-    border-radius: 8px;
-    margin: 20px auto; /* Centraliza a imagem horizontalmente */
-    display: block;    /* Necessário para que a margem 'auto' funcione */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    /* Opcional: Limita o tamanho máximo em telas muito grandes */
-    max-width: 500px; 
-}
-
-.slogan {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #4CAF50;
-    margin-top: 10px;
-}
-
-/* Responsividade */
 @media (min-width: 768px) {
-    /* Em telas maiores, os cards de ação ficam lado a lado */
+    /* Layout dos cards de ação na home */
     .action-cards-grid {
-        grid-template-columns: 1fr 1fr; /* Duas colunas de tamanho igual */
-    }
-    
-    .card {
-        flex: 1; /* Permite que os cards cresçam igualmente */
+        grid-template-columns: 1fr 1fr;
     }
 
-    /* Garante que na página de cadastro o formulário não fique esticado demais */
+    /* Layout da página de cadastro */
     #form-cadastro {
         max-width: 500px;
         margin: 0 auto;

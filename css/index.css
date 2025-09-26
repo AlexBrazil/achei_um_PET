@@ -197,6 +197,47 @@
     font-size: 0.9rem;
     margin-top: 10px;
 }
+/* ============================================= */
+/* ESTILOS ESPECÍFICOS PARA O STORYBOARD QR-CODE */
+/* ============================================= */
+
+.qr-storyboard {
+    text-align: center;
+}
+
+.storyboard-grid {
+    display: grid;
+    /* Começa com uma coluna para o layout mobile (Mobile First) */
+    grid-template-columns: 1fr;
+    gap: 30px; /* Espaçamento entre os itens */
+    margin-top: 30px;
+}
+
+.storyboard-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.storyboard-item img {
+    width: 100%; /* A imagem ocupa toda a largura da coluna do grid */
+    height: auto;
+    aspect-ratio: 1 / 1; /* Força uma proporção quadrada para consistência visual */
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; /* Espaço entre a imagem e a legenda */
+}
+
+.storyboard-caption {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    max-width: 90%; /* Garante que o texto seja um pouco mais estreito que a imagem */
+}
+
+
 
 @media (max-width: 767px) {
     .pet-images-container {
@@ -212,5 +253,9 @@
 @media (min-width: 768px) {
     .action-cards-grid {
         grid-template-columns: 1fr 1fr;
+    }
+    .storyboard-grid {
+        /* Muda para três colunas em tablets e desktops */
+        grid-template-columns: repeat(3, 1fr);
     }
 }

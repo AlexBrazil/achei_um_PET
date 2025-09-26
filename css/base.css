@@ -171,6 +171,43 @@ button:disabled {
     display: none;
 }
 
+/* ============================================= */
+/* 8. RODAPÉ                                     */
+/* ============================================= */
+.site-footer {
+    background-color: #343a40; /* Um cinza bem escuro, quase preto */
+    color: #f8f9fa; /* Um branco suave */
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 40px; /* Empurra o rodapé para baixo, separando-o do conteúdo principal */
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-content {
+    max-width: 900px; /* Mesma largura do container principal para alinhamento */
+    margin: 0 auto;
+}
+
+.site-footer p {
+    margin-bottom: 8px; /* Espaçamento entre as linhas de texto */
+}
+
+.site-footer p:last-child {
+    margin-bottom: 0; /* Remove a margem do último parágrafo */
+}
+
+.site-footer a {
+    color: #4a90e2; /* Cor azul do tema para links, criando contraste */
+    text-decoration: none;
+    font-weight: 500;
+    transition: text-decoration 0.2s ease;
+}
+
+.site-footer a:hover {
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

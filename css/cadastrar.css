@@ -5,19 +5,30 @@
 /* ======================================================= */
 
 .custom-file-upload {
-    display: inline-block; /* Comportamento de botão */
+    display: inline-block;
     padding: 10px 20px;
-    background-color: #4a90e2; /* Cor azul do tema */
+    background-color: #4a90e2; /* Cor azul primária, consistente com outros botões */
     color: white;
+    border: 1px solid #357abd; /* Borda sutil para dar profundidade */
     border-radius: 4px;
-    cursor: pointer;
+    
+    /* A MUDANÇA PRINCIPAL: Adiciona a "mãozinha" */
+    cursor: pointer; 
+    
     font-weight: 600;
     text-align: center;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    user-select: none; /* Impede que o texto do botão seja selecionado */
 }
 
+/* Efeito ao passar o mouse */
 .custom-file-upload:hover {
     background-color: #357abd; /* Tom de azul mais escuro */
+}
+
+/* Efeito ao clicar */
+.custom-file-upload:active {
+    transform: scale(0.98); /* Efeito de pressionar o botão */
 }
 
 /* Estilo para mostrar os nomes dos arquivos selecionados */
@@ -27,6 +38,7 @@
     font-size: 0.9rem;
     color: #555;
     font-style: italic;
+    word-break: break-all; /* Garante que nomes longos não quebrem o layout */
 }
 
 @media (min-width: 768px) {

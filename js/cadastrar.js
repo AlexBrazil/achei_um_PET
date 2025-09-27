@@ -4,10 +4,9 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const formCadastro = document.getElementById('form-cadastro');
-
-    // Se o formulário não existir nesta página, não faz nada.
     if (!formCadastro) return;
     
+    // --- SELEÇÃO DE ELEMENTOS ---
     const fotosInput = document.getElementById('fotos');
     const whatsappInput = document.getElementById('whatsapp');
     const formEstadoSelect = document.getElementById('form-estado');
@@ -17,18 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.querySelector('#btn-submit .loader');
     const fileNamesDisplay = document.getElementById('file-names');
 
-    // Listener para o input de arquivos, para mostrar os nomes selecionados
+    // --- LÓGICA ATUALIZADA PARA MOSTRAR E ABREVIAR NOMES DOS ARQUIVOS ---
     fotosInput.addEventListener('change', () => {
+        const MAX_LENGTH = 50; // Define o comprimento máximo da string de nomes
+
         if (fotosInput.files.length > 0) {
             // Cria uma string com os nomes dos arquivos, separados por vírgula
-            const fileNames = Array.from(fotosInput.files)
-                                 .map(file => file.name)
-                                 .join(', ');
-            fileNamesDisplay.textContent = fileNames;
+            let fileNamesString = Array.from(fotosInput.files)
+                                     .map(file => file.name)
+                                     .join(', ');
+
+            // Verifica se a string é muito longa e a abrevia se necessário
+            if (fileNamesString.length > MAX_LENGTH) {
+                fileNamesString = fileNamesString.substring(0, MAX_LENGTH) + '...';
+            }
+            
+            fileNamesDisplay.textContent = fileNamesString;
         } else {
             fileNamesDisplay.textContent = 'Nenhum arquivo selecionado';
         }
     });
+    // --- FIM DA LÓGICA ATUALIZADA ---
 
     carregarEstados(formEstadoSelect);
     
@@ -53,7 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor, insira um número de WhatsApp válido com DDD (10 ou 11 dígitos).');
             return;
         }
-        // ... (resto da validação e lógica de cadastro) ...
+        const fotos = fotosInput.files;
+        if (fotos.length === 0 || fotos.length > 3) {
+            alert('Por favor, selecione de 1 a 3 fotos.');
+            return;
+        }
+        if (!formEstadoSelect.value || !formCidadeSelect.value) {
+            alert('Por favor, selecione o Estado e a Cidade.');
+            return;
+        }
+        
         btnSubmit.disabled = true;
         loader.classList.remove('hidden');
 
@@ -82,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             alert(`CADASTRO REALIZADO!\n\nGuarde bem sua Palavra-chave: "${palavraChaveInput.value}" ...`);
             formCadastro.reset();
+            fileNamesDisplay.textContent = 'Nenhum arquivo selecionado'; // Limpa o display de nomes
             formCidadeSelect.innerHTML = '<option value="">Aguardando estado...</option>';
             formCidadeSelect.disabled = true;
 

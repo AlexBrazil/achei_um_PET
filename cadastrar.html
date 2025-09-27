@@ -23,7 +23,16 @@
             <form id="form-cadastro">
                 <div class="form-group">
                     <label for="fotos">Fotos do PET (até 3)</label>
-                    <input type="file" id="fotos" accept="image/*" multiple required>
+                    <!-- O input real agora está escondido -->
+                    <input type="file" id="fotos" accept="image/*" multiple required style="display: none;">
+                    
+                    <!-- Nosso novo botão estilizado, que é um label -->
+                    <label for="fotos" class="custom-file-upload">
+                        📷 Escolher Fotos
+                    </label>
+                    
+                    <!-- Um lugar para mostrar os nomes dos arquivos selecionados -->
+                    <span id="file-names" class="file-names-display">Nenhum arquivo selecionado</span>
                 </div>
                 <div class="form-group">
                     <label for="whatsapp">Seu WhatsApp (com DDD)</label>

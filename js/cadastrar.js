@@ -15,6 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const palavraChaveInput = document.getElementById('palavra-chave');
     const btnSubmit = document.getElementById('btn-submit');
     const loader = document.querySelector('#btn-submit .loader');
+    const fileNamesDisplay = document.getElementById('file-names');
+
+    // Listener para o input de arquivos, para mostrar os nomes selecionados
+    fotosInput.addEventListener('change', () => {
+        if (fotosInput.files.length > 0) {
+            // Cria uma string com os nomes dos arquivos, separados por vírgula
+            const fileNames = Array.from(fotosInput.files)
+                                 .map(file => file.name)
+                                 .join(', ');
+            fileNamesDisplay.textContent = fileNames;
+        } else {
+            fileNamesDisplay.textContent = 'Nenhum arquivo selecionado';
+        }
+    });
 
     carregarEstados(formEstadoSelect);
     
